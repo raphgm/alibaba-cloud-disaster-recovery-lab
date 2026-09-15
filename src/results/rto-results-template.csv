@@ -1,0 +1,5 @@
+timestamp,scenario,target_rto_seconds,actual_rto_seconds,notes
+,Container crash,60,,
+,ECS/node failure (before fix),300,,
+,ECS/node failure (after standby buffer fix),300,,
+,Data loss (OSS restore),900,,
