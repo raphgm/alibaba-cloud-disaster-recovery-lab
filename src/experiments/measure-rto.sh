@@ -13,7 +13,8 @@ shift
 SCRIPT="${1:?Missing experiment script}"
 shift
 
-RESULTS_FILE="../results/rto-results-$(date +%F).csv"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+RESULTS_FILE="${SCRIPT_DIR}/../results/rto-results-$(date +%F).csv"
 mkdir -p "$(dirname "$RESULTS_FILE")"
 [ -f "$RESULTS_FILE" ] || echo "timestamp,scenario,rto_seconds" > "$RESULTS_FILE"
 
