@@ -6,7 +6,7 @@ Companion lab for the article [Disaster Recovery on Alibaba Cloud: Designing for
 
 ---
 
-## 🎯 Architecture Under Test
+## Architecture Under Test
 
 ```mermaid
 flowchart LR
@@ -25,7 +25,7 @@ flowchart LR
 
 ---
 
-## 📚 Repository Structure
+## Repository Structure
 
 ```text
 .
@@ -45,7 +45,7 @@ flowchart LR
 
 ---
 
-## 🛠️ Running the Experiments
+## Running the Experiments
 
 Each experiment script is self-contained and prints a start/end timestamp so you can measure real RTO, not an estimate.
 
