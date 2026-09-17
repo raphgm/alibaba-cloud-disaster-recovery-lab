@@ -6,11 +6,31 @@
 #
 # Apply just this resource after running Experiment 2 the first time:
 #   terraform apply -target=alicloud_cs_kubernetes_node_pool.standby_buffer
+#
+# cluster_id/vswitch_id default to this module's own primary cluster and
+# zone-A vswitch (main.tf), so applying alongside it needs no extra input.
+# To apply this fix against an existing cluster instead — without editing
+# this file — override both:
+#   terraform apply -target=alicloud_cs_kubernetes_node_pool.standby_buffer \
+#     -var="standby_buffer_cluster_id=cs-xxxxxxxx" \
+#     -var="standby_buffer_vswitch_id=vsw-xxxxxxxx"
+
+variable "standby_buffer_cluster_id" {
+  description = "ACK cluster ID to attach the standby buffer node pool to. Defaults to this module's own primary cluster."
+  type        = string
+  default     = null
+}
+
+variable "standby_buffer_vswitch_id" {
+  description = "Vswitch ID for the standby buffer node pool. Defaults to this module's own zone-A vswitch."
+  type        = string
+  default     = null
+}
 
 resource "alicloud_cs_kubernetes_node_pool" "standby_buffer" {
-  cluster_id     = alicloud_cs_managed_kubernetes.primary.id
+  cluster_id     = coalesce(var.standby_buffer_cluster_id, alicloud_cs_managed_kubernetes.primary.id)
   node_pool_name = "standby-buffer"
-  vswitch_ids    = [alicloud_vswitch.zone_a.id]
+  vswitch_ids    = [coalesce(var.standby_buffer_vswitch_id, alicloud_vswitch.zone_a.id)]
   instance_types = ["ecs.g6.large"]
   desired_size   = 1 # always-on buffer capacity
 
